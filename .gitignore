@@ -1,0 +1,11 @@
+# IDE specific files
+.vscode/
+.idea/
+*.iml
+
+# Java/Maven build files
+target/
+*.class
+
+# Mac OS files (just in case)
+.DS_Store
