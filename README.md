@@ -7,7 +7,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## 🎯 Project Objective
-Millions of pounds of perishable food are wasted daily due to supply chain inefficiencies and lack of real-time visibility. **The Real-Time Cold-Storage Matching Network** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
+**The Real-Time Cold-Storage Matching Network** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
 
 ## 👋 The Problem I'm Trying to Solve
 It’s crazy how much perfectly good food ends up in landfills every single day just because of bad logistics. Supermarkets often have surplus food that requires refrigeration (like milk or raw meat), but they lack a real-time way to find nearby cold-storage facilities or food banks before it spoils.
