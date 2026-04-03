@@ -1,0 +1,29 @@
+# ♻️ Real-Time Cold-Storage Matching Network
+
+![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0+-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-Event_Streaming-231F20?style=for-the-badge&logo=apachekafka&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+
+## 🎯 Project Objective
+Millions of pounds of perishable food are wasted daily due to supply chain inefficiencies and lack of real-time visibility. **The Real-Time Cold-Storage Matching Network** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
+
+## 🏗️ System Architecture (Current State)
+
+This project leverages a modern, distributed microservices architecture. 
+
+1. **Inventory Simulator (Producer):** A Spring Boot service that continuously generates randomized supermarket inventory data.
+2. **Event Broker (Kafka):** Acts as the central nervous system, capturing high-throughput inventory streams.
+3. **Data Persistence (PostgreSQL):** Relational database primed for storing matched cold-chain records and analytical data.
+4. **Containerization:** The entire infrastructure (Zookeeper, Kafka Broker, Postgres Database) is locally orchestrated via Docker Compose.
+
+```text
+[ Supermarket Simulator ] 
+       │ (Spring Boot)
+       │ JSON Payload (Item, Weight, Refrigeration Needs)
+       ▼
+[ Apache Kafka ] ── Topic: food-inventory-stream
+       │
+       ▼
+[ Future Consumers / Match Engine ] ---> [ PostgreSQL DB ]
