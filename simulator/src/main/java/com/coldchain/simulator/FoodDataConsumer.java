@@ -1,9 +1,8 @@
 package com.coldchain.simulator;
 
-import org.springframework.beans.factory.annotation.Autowired; // NEW IMPORT
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
 import java.util.Random;
 
 @Service
@@ -11,69 +10,67 @@ public class FoodDataConsumer {
 
     private final Random random = new Random();
     
-    // --- NEW: Inject the database saver ---
     @Autowired
     private MatchHistoryRepository matchHistoryRepository;
     
-    // A mock list of local charity centers
+    // 🇮🇳 Updated: Renowned Indian Food Banks & NGOs
     private final String[] charityCenters = {
-        "Downtown Community Kitchen", 
-        "Hope Food Bank", 
-        "City Orphanage", 
-        "Green Valley Shelter",
-        "Salvation Army Center"
+        "Feeding India (Zomato)", 
+        "Akshaya Patra Foundation", 
+        "Robin Hood Army - Local Chapter", 
+        "Goonj - Rahat Food Center",
+        "Roti Bank Mumbai",
+        "No Food Waste NGO",
+        "India FoodBanking Network"
     };
 
     @KafkaListener(topics = "food-inventory-stream", groupId = "cold-storage-matchers")
     public void consumeFoodData(InventoryItem item) {
         
-        System.out.println("\n📥 NEW INVENTORY ALERT TRIGGERED");
-        System.out.println("   🏪 Origin: " + item.storeId);
+        System.out.println("\n🇮🇳 LOGISTICS UPDATE: Incoming Stock from " + item.storeId);
         System.out.println("   📦 Item: " + item.getItemName());
-        System.out.println("   ⚖️ Quantity: " + item.getQuantityLbs() + " lbs");
-        System.out.println("   ⏳ Expires in: " + item.getDaysUntilExpiry() + " days");
-        System.out.println("   ❄️ Needs Refrigeration: " + (item.isRequiresRefrigeration() ? "YES" : "NO"));
+        System.out.println("   ⚖️ Weight: " + item.getQuantityLbs() + " lbs");
+        System.out.println("   ⏳ Expiry Window: " + item.getDaysUntilExpiry() + " days");
+        System.out.println("   ❄️ Cold Storage Req: " + (item.isRequiresRefrigeration() ? "YES" : "NO"));
         
-        // Only trigger the charity matching logic if the item is expiring soon (e.g., 5 days or less)
+        // Match logic: Items with 5 days or less are redirected to NGOs
         if (item.getDaysUntilExpiry() <= 5) {
-            System.out.println("   ⚠️ HIGH RISK: Item expiring soon. Initiating Charity Search...");
+            System.out.println("   ⚠️ ACTION: Redirecting surplus to prevent waste...");
             matchWithCharity(item);
         } else {
-            System.out.println("   ✅ SAFE: Item has plenty of shelf life. No immediate action required.");
+            System.out.println("   ✅ STATUS: Shelf life sufficient. Retaining in store.");
         }
         System.out.println("--------------------------------------------------");
     }
 
-    // Helper method to simulate finding a nearby charity
     private void matchWithCharity(InventoryItem item) {
-        // 1. Pick a random charity from our list
+        // 1. Pick a random Indian Charity
         String nearbyCharity = charityCenters[random.nextInt(charityCenters.length)];
         
-        // 2. Randomly determine if this specific charity has an industrial fridge available
+        // 2. Simulate if they have cold storage (Industrial Fridges)
         boolean charityHasFridge = random.nextBoolean(); 
         
-        System.out.println("   🔍 SEARCHING: Found nearby center -> " + nearbyCharity);
-        System.out.println("   ❄️ Center Accepts Refrigerated Goods: " + (charityHasFridge ? "YES" : "NO"));
+        System.out.println("   🔍 SCANNING: Nearest NGO found -> " + nearbyCharity);
+        System.out.println("   ❄️ NGO Cold Storage Status: " + (charityHasFridge ? "ACTIVE" : "NONE"));
 
         // The Match Logic
         if (item.isRequiresRefrigeration() && !charityHasFridge) {
-            System.out.println("   ❌ MATCH FAILED: " + nearbyCharity + " cannot safely store " + item.getItemName() + ".");
-            // important to resume the search
-            System.out.println("   🔄 ACTION: Rerouting search to find a facility with cold storage...");
+            System.out.println("   ❌ MATCH FAILED: " + nearbyCharity + " cannot store " + item.getItemName() + " (Fridge Required).");
+            System.out.println("   🔄 REROUTING: Searching for another local NGO...");
         } else {
-            System.out.println("   🤝 MATCH SUCCESS: Dispatching " + item.getQuantityLbs() + " lbs of " + item.getItemName() + " to " + nearbyCharity + "!");
+            System.out.println("   🤝 MATCH SUCCESS: Routing " + item.getItemName() + " to " + nearbyCharity + "!");
             
-            // --- NEW: Save the successful match to PostgreSQL ---
+            // 💾 Save the match to PostgreSQL
             MatchHistory newMatch = new MatchHistory(
-                item.storeId,               // Origin Store
-                item.getItemName(),         // Item Name
-                item.getQuantityLbs(),      // Quantity
-                item.getDaysUntilExpiry(),  // Expiry Days
-                nearbyCharity               // Charity Name
+                item.storeId,               // e.g., Reliance Fresh
+                item.getItemName(),         // e.g., Paneer
+                item.getQuantityLbs(), 
+                item.getDaysUntilExpiry(), 
+                nearbyCharity               // e.g., Akshaya Patra
             );
             
             matchHistoryRepository.save(newMatch);
-            System.out.println("   💾 SAVED: Match successfully recorded in database!");
+            System.out.println("   💾 DATABASE: Record updated for localized distribution.");
         }
     }
 }

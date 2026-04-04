@@ -14,26 +14,43 @@ public class FoodDataProducer {
     private KafkaTemplate<String, InventoryItem> kafkaTemplate;
 
     private final Random random = new Random();
-    private final String[] foodItems = {"Fresh Milk", "Organic Spinach", "Greek Yogurt", "Ground Beef", "Strawberries"};
 
-    // This runs every 5 seconds automatically!
+    // 🇮🇳 Indian Retailers
+    private final String[] indianStores = {
+        "Reliance Fresh - Mumbai", 
+        "Big Bazaar - Delhi", 
+        "Nature's Basket - Bangalore", 
+        "Star Bazaar - Pune",
+        "Zomato Hyperpure - Hyderabad",
+        "blinkit Dark Store - Gurgaon"
+    };
+
+    // 🥦 Indian Grocery Items
+    private final String[] foodItems = {
+        "Fresh Paneer", "Amul Gold Milk", "Alphonso Mangoes", 
+        "Organic Palak", "Greek Yogurt", "Desi Ghee", "Tofu"
+    };
+
     @Scheduled(fixedRate = 5000)
     public void produceRandomFood() {
-        String name = foodItems[random.nextInt(foodItems.length)];
+        // Pick a random store and a random item
+        String storeName = indianStores[random.nextInt(indianStores.length)];
+        String itemName = foodItems[random.nextInt(foodItems.length)];
         
-        // Create a random food item
+        // Logic: Dairy/Meat usually needs refrigeration, Mangoes/Veg might vary
+        boolean needsFridge = itemName.contains("Paneer") || itemName.contains("Milk") || itemName.contains("Yogurt");
+
         InventoryItem item = new InventoryItem(
             UUID.randomUUID().toString().substring(0, 8),
-            "Walmart-Store-101",
-            name,
-            random.nextBoolean(), // Randomly needs fridge or not
-            random.nextInt(50) + 1, // 1 to 50 lbs
-            random.nextInt(10) + 1  // 1 to 10 days until expiry
+            storeName, // No longer "Walmart-Store-101"!
+            itemName,
+            needsFridge, 
+            random.nextInt(50) + 5, // 5 to 55 lbs
+            random.nextInt(7) + 1   // 1 to 7 days until expiry (High risk)
         );
 
-        System.out.println("🚀 PRODUCING: Sending " + item.itemName + " to Kafka...");
+        System.out.println("🚀 PRODUCING: [" + item.storeId + "] is shipping " + item.itemName);
         
-        // Send it to the topic your consumer is listening to
         kafkaTemplate.send("food-inventory-stream", item);
     }
 }
