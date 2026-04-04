@@ -1,5 +1,6 @@
 package com.coldchain.simulator;
 
+import org.springframework.beans.factory.annotation.Autowired; // NEW IMPORT
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,10 @@ import java.util.Random;
 public class FoodDataConsumer {
 
     private final Random random = new Random();
+    
+    // --- NEW: Inject the database saver ---
+    @Autowired
+    private MatchHistoryRepository matchHistoryRepository;
     
     // A mock list of local charity centers
     private final String[] charityCenters = {
@@ -57,6 +62,18 @@ public class FoodDataConsumer {
             System.out.println("   🔄 ACTION: Rerouting search to find a facility with cold storage...");
         } else {
             System.out.println("   🤝 MATCH SUCCESS: Dispatching " + item.getQuantityLbs() + " lbs of " + item.getItemName() + " to " + nearbyCharity + "!");
+            
+            // --- NEW: Save the successful match to PostgreSQL ---
+            MatchHistory newMatch = new MatchHistory(
+                item.storeId,               // Origin Store
+                item.getItemName(),         // Item Name
+                item.getQuantityLbs(),      // Quantity
+                item.getDaysUntilExpiry(),  // Expiry Days
+                nearbyCharity               // Charity Name
+            );
+            
+            matchHistoryRepository.save(newMatch);
+            System.out.println("   💾 SAVED: Match successfully recorded in database!");
         }
     }
 }

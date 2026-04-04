@@ -11,16 +11,17 @@ public class MatchHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String originStore;      // Added: "Walmart-Store-101"
-    private String itemName;         // "Strawberries"
-    private int quantityLbs;         // 18
-    private int expiryDaysAtMatch;   // Added: 3
-    private String charityName;      // "City Orphanage"
+    private String originStore;
+    private String itemName;
+    private int quantityLbs;
+    private int expiryDaysAtMatch;
+    private String charityName;
     private LocalDateTime matchTime;
 
+    // Required empty constructor
     public MatchHistory() {}
 
-    // Updated Constructor to catch all the data from your log
+    // Constructor for saving new matches
     public MatchHistory(String originStore, String itemName, int quantityLbs, int expiryDaysAtMatch, String charityName) {
         this.originStore = originStore;
         this.itemName = itemName;
@@ -30,5 +31,35 @@ public class MatchHistory {
         this.matchTime = LocalDateTime.now();
     }
 
-    // Getters and Setters for all fields...
+    // ==========================================
+    // THE MISSING GETTERS (This exposes the JSON)
+    // ==========================================
+    
+    public Long getId() {
+        return id;
+    }
+
+    public String getOriginStore() {
+        return originStore;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public int getQuantityLbs() {
+        return quantityLbs;
+    }
+
+    public int getExpiryDaysAtMatch() {
+        return expiryDaysAtMatch;
+    }
+
+    public String getCharityName() {
+        return charityName;
+    }
+
+    public LocalDateTime getMatchTime() {
+        return matchTime;
+    }
 }
