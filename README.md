@@ -23,7 +23,6 @@ I'm building this project to fix that gap. **The Real-Time Cold-Storage Matching
 
 ## 📸 Screenshots
 
-*(Add screenshots of your working project here)*
 
 | Dashboard View | Architecture Flow |
 | :---: | :---: |
