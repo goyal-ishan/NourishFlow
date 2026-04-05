@@ -1,6 +1,7 @@
 package com.coldchain.simulator;
 
 public class InventoryItem {
+    
     public String itemId;
     public String storeId; // This will now hold our Indian Store names
     public String itemName;
