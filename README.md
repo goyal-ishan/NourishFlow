@@ -24,9 +24,11 @@ I'm building this project to fix that gap. **The Real-Time Cold-Storage Matching
 ## 📸 Screenshots
 
 
-| Dashboard View | Architecture Flow |
+| Dashboard View 1 | Dashboard View 2 |
 | :---: | :---: |
-| ![Dashboard](./assets/dashboard.png) | ![Flow](./assets/logic.png) |
+| ![Dashboard1](./screenshots/Live-matched_1.png) | ![Dashboard2](./screenshots/Live-matches2.png) |
+| **Impact Analytics** | **Architecture Flow** |
+| ![Analytics](./screenshots/Impact%20Analytics.png) | ![Flow](./screenshots/System-architecture.png) |
 
 ## 🏗️ System Architecture 
 
