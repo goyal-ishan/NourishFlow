@@ -24,6 +24,22 @@ This project leverages a modern, distributed microservices architecture.
 3. **Data Persistence (PostgreSQL):** Relational database primed for storing matched cold-chain records and analytical data.
 4. **Containerization:** The entire infrastructure (Zookeeper, Kafka Broker, Postgres Database) is locally orchestrated via Docker Compose.
 5. **Client Interface:** A React frontend for real-time dashboard visualization.
+## 🚀 Getting Started
+
+Follow these steps to run the complete infrastructure and application locally.
+
+### Prerequisites
+* **Docker Desktop** installed and running on your machine.
+* **Java 17+** installed.
+* **Node.js & npm** installed.
+
+### 1. Start Docker Desktop
+Before running any commands, ensure the Docker Desktop application is open and running in the background. This is required to spin up our Kafka and PostgreSQL containers.
+
+### 2. Boot Up the Infrastructure (Docker)
+This project uses 3 main Docker files (`docker-compose.yml` in the root, plus a `Dockerfile` in both the backend and frontend folders). Open your terminal in the **root** folder of the project and run this command to build and start the containers:
+```bash
+docker compose up --build
 
 ```text
 [ Supermarket Simulator ] 
