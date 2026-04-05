@@ -47,3 +47,32 @@ This project leverages a modern, distributed microservices architecture.
        │
        ▼
 [ Future Consumers / Match Engine ] ---> [ PostgreSQL DB ]
+
+🚀 Execution Guide (How to Start)
+To get the network running, you need to execute these commands in three separate terminal windows (Side-by-Side).
+
+1. Spin up the Infrastructure (Docker)
+First, ensure Docker Desktop is running. Then, from the root directory of this project, run the following to start Kafka, Zookeeper, and PostgreSQL:
+
+Bash
+# In Terminal 1 (Root Folder)
+docker compose up --build
+(Leave this terminal running in the background. It prepares the "brain" of the system).
+
+2. Start the Spring Boot Backend
+Once the infrastructure is live, navigate to the backend folder to start the inventory simulator and Kafka producer:
+
+Bash
+# In Terminal 2
+cd backend
+./mvnw spring-boot:run
+(Windows users: if ./mvnw gives an error, use .\mvnw spring-boot:run instead).
+
+3. Start the React Dashboard
+Finally, launch the frontend to visualize the live data matching:
+
+Bash
+# In Terminal 3
+cd frontend
+npm install
+npm start
