@@ -1,0 +1,5 @@
+# Force GitHub to count these files in the language bar
+frontend/**/*.js linguist-detectable=true
+frontend/**/*.jsx linguist-detectable=true
+frontend/**/*.css linguist-detectable=true
+frontend/**/*.html linguist-detectable=true
