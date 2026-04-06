@@ -8,10 +8,10 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## 🎯 Project Objective
-**NourishFlow** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
+**NourishFlow** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g.,Baked Foods, Milk,Paneer,Vegetables,Raw Chicken,etc), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
 
 ## 👋 The Problem I'm Trying to Solve
-It’s crazy how much perfectly good food ends up in landfills every single day just because of bad logistics. Supermarkets often have surplus food that requires refrigeration (like milk or raw meat), but they lack a real-time way to find nearby cold-storage facilities or food banks before it spoils.
+It’s crazy how much perfectly good food ends up in landfills every single day just because of bad logistics. Supermarkets often have surplus food that requires refrigeration (like milk or paneer), but they lack a real-time way to find nearby cold-storage facilities or food banks before it spoils.
 
 I'm building this project to fix that gap. **NorishFlow** acts as a live monitoring system. It watches a supermarket's inventory, instantly spots items that need a fridge, and streams that data out so the food can be matched with a storage facility before it goes bad.
 
