@@ -1,4 +1,4 @@
-# ♻️ Real-Time Cold-Storage Matching Network
+# ♻️ NourishFlow
 
 ![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0+-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
@@ -8,12 +8,12 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## 🎯 Project Objective
-**The Real-Time Cold-Storage Matching Network** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
+**NourishFlow** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g., Raw Chicken, Milk), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
 
 ## 👋 The Problem I'm Trying to Solve
 It’s crazy how much perfectly good food ends up in landfills every single day just because of bad logistics. Supermarkets often have surplus food that requires refrigeration (like milk or raw meat), but they lack a real-time way to find nearby cold-storage facilities or food banks before it spoils.
 
-I'm building this project to fix that gap. **The Real-Time Cold-Storage Matching Network** acts as a live monitoring system. It watches a supermarket's inventory, instantly spots items that need a fridge, and streams that data out so the food can be matched with a storage facility before it goes bad.
+I'm building this project to fix that gap. **NorishFlow** acts as a live monitoring system. It watches a supermarket's inventory, instantly spots items that need a fridge, and streams that data out so the food can be matched with a storage facility before it goes bad.
 
 ## ✨ Key Features
 * **Event-Driven Architecture:** Uses Apache Kafka to handle high-throughput inventory data streams.
