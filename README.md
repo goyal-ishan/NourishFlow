@@ -8,12 +8,12 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## 🎯 Project Objective
-**NourishFlow** is an event-driven system designed to continuously monitor supermarket inventories, identify high-risk perishable goods (e.g.,Baked Foods, Milk,Paneer,Vegetables,Raw Chicken,etc), and stream this data in real-time to match surplus food with available cold-storage facilities before it spoils.
+**NourishFlow** is an event driven system would constantly stream real time information about inventory in supermarkets, look out for items prone to be high-risk (e.g Baked Foods, Milk, Paneer, Vegetables, Raw Chicken etc.) and match these items against cold-storage availability to prevent food waste due to spoilage.
 
 ## 👋 The Problem I'm Trying to Solve
-It’s crazy how much perfectly good food ends up in landfills every single day just because of bad logistics. Supermarkets often have surplus food that requires refrigeration (like milk or paneer), but they lack a real-time way to find nearby cold-storage facilities or food banks before it spoils.
+Daily on a lot of good eatable food products are thrown away simply because of a logistic problem which is completely insane!!! Food products like Milk, Paneer need refrigeration but there's no way they can verify if there's a local cold storage or food bank to keep these products before they are expired.
 
-I'm building this project to fix that gap. **NorishFlow** acts as a live monitoring system. It watches a supermarket's inventory, instantly spots items that need a fridge, and streams that data out so the food can be matched with a storage facility before it goes bad.
+So, my project tries to address this problem as essentially this is the real time monitor (NorishFlow) of the supermarkets, where they scan the inventory and send alerts if the products need to be refrigerated live to a storage unit. Which in turn would pick it up before it goes bad.
 
 ## ✨ Key Features
 * **Event-Driven Architecture:** Uses Apache Kafka to handle high-throughput inventory data streams.
