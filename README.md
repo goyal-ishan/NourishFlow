@@ -18,8 +18,8 @@ So, my project tries to address this problem as essentially this is the real tim
 ## ✨ Key Features
 * **Event-Driven Architecture:** Utilizes Apache Kafka to reliably ingest and process high-throughput inventory telemetry streams.
 * **Real-Time Match Engine:** Downstream Java consumer dynamically matches surplus alerts against local NGO refrigeration tiers.
-* **📍 Interactive Live Map Interface:** Integrates **React Leaflet** and **OpenStreetMap** layers to visualize real-time logistical movements across a localized grid centered on **Prayagraj (Allahabad), India**.
-* **🛣️ Dynamic Polyline Routing:** Calculates and displays dynamic, dashed visual routes directly linking source retail origins (e.g., Civil Lines, Naini, Jhalwa) with receiving charity facilities.
+* **Interactive Live Map Interface 📍:** Integrates **React Leaflet** and **OpenStreetMap** layers to visualize real-time logistical movements across a localized grid centered on **Prayagraj (Allahabad), India**.
+* **Dynamic Polyline Routing 🛣️ :** Calculates and displays dynamic, dashed visual routes directly linking source retail origins (e.g., Civil Lines, Naini, Jhalwa) with receiving charity facilities.
 * **Full-Stack Containerization:** Orchestrates infrastructure dependencies (Kafka, Zookeeper, and PostgreSQL) seamlessly via Docker Compose.
 
 ## 📸 Screenshots
