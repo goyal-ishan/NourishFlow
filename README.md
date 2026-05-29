@@ -30,7 +30,7 @@ So, my project tries to address this problem as essentially this is the real tim
 | **Impact Analytics** | **Architecture Flow** |
 | ![Analytics](./screenshots/Impact%20Analytics.png) | ![Flow](./screenshots/System-architecture.png) |
 | <span id="user-content-live-map-title">**Live Map Geospatial Tracking Grid (Prayagraj)**</span> | |
-| <td colspan="2" align="center">![Live Map](./screenshots/LiveMap.png)</td> |
+| <td colspan="1.5" align="center">![Live Map](./screenshots/LiveMap.png)</td> |
 ## 🏗️ System Architecture 
 
 This platform leverages a distributed microservices framework designed for horizontal scalability:
