@@ -32,7 +32,7 @@ So, my project tries to address this problem as essentially this is the real tim
 | **Live Map Geospatial Tracking Grid (Prayagraj)** | |
 
 <p align="center">
-  <img src="./screenshots/Live-map.png" alt="Live Map" width="100%" />
+  <img src="./screenshots/LiveMap.png" alt="Live Map" width="100%" />
 </p>
 
 ## 🏗️ System Architecture 
