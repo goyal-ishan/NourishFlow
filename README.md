@@ -30,7 +30,8 @@ So, my project tries to address this problem as essentially this is the real tim
 | ![Dashboard1](./screenshots/Live-matched_1.png) | ![Dashboard2](./screenshots/Live-matches2.png) |
 | **Impact Analytics** | **Architecture Flow** |
 | ![Analytics](./screenshots/Impact%20Analytics.png) | ![Flow](./screenshots/System-architecture.png) |
-
+| **Live Map**
+| ![Live Map](./screenshots/LiveMap.png) 
 ## 🏗️ System Architecture 
 
 This platform leverages a distributed microservices framework designed for horizontal scalability:
