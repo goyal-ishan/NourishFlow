@@ -16,10 +16,11 @@ Daily on a lot of good eatable food products are thrown away simply because of a
 So, my project tries to address this problem as essentially this is the real time monitor (NorishFlow) of the supermarkets, where they scan the inventory and send alerts if the products need to be refrigerated live to a storage unit. Which in turn would pick it up before it goes bad.
 
 ## ✨ Key Features
-* **Event-Driven Architecture:** Uses Apache Kafka to handle high-throughput inventory data streams.
-* **Real-Time Processing:** Instantly identifies items requiring refrigeration.
-* **Full-Stack Containerization:** Frontend, backend, and infrastructure all orchestrated via Docker Compose.
-* **Interactive Dashboard:** React-based UI for visualizing the cold-chain matching process.
+* **Event-Driven Architecture:** Utilizes Apache Kafka to reliably ingest and process high-throughput inventory telemetry streams.
+* **Real-Time Match Engine:** Downstream Java consumer dynamically matches surplus alerts against local NGO refrigeration tiers.
+* **📍 Interactive Live Map Interface:** Integrates **React Leaflet** and **OpenStreetMap** layers to visualize real-time logistical movements across a localized grid centered on **Prayagraj (Allahabad), India**.
+* **🛣️ Dynamic Polyline Routing:** Calculates and displays dynamic, dashed visual routes directly linking source retail origins (e.g., Civil Lines, Naini, Jhalwa) with receiving charity facilities.
+* **Full-Stack Containerization:** Orchestrates infrastructure dependencies (Kafka, Zookeeper, and PostgreSQL) seamlessly via Docker Compose.
 
 ## 📸 Screenshots
 
@@ -32,14 +33,13 @@ So, my project tries to address this problem as essentially this is the real tim
 
 ## 🏗️ System Architecture 
 
-This project leverages a modern, distributed microservices architecture. 
+This platform leverages a distributed microservices framework designed for horizontal scalability:
 
-1. **Inventory Simulator (Producer):** A Spring Boot service that continuously generates randomized supermarket inventory data.
-2. **Event Broker (Kafka):** Acts as the central nervous system, capturing high-throughput inventory streams.
-3. **Data Persistence (PostgreSQL):** Relational database primed for storing matched cold-chain records and analytical data.
-4. **Containerization:** The entire infrastructure (Zookeeper, Kafka Broker, Postgres Database) is locally orchestrated via Docker Compose.
-5. **Client Interface:** A React frontend for real-time dashboard visualization.
-
+1. **Inventory Simulator (Kafka Producer):** A Spring Boot service that continuously pushes randomized inventory items detailing weight, lifetime, and retailer identity profiles.
+2. **Event Broker (Apache Kafka):** Serves as the high-speed data stream spine carrying payload streams across the `food-inventory-stream` channel.
+3. **Logistics & Geospatial Match Engine (Kafka Consumer):** Processes the data stream, filters expiry risks, looks up regional NGO targets, and injects bounding latitude/longitude coordinate points.
+4. **Data Persistence (PostgreSQL):** Persists an immutable ledger of transaction records containing structural coordinate metadata (`source_lat`, `source_lng`, `dest_lat`, `dest_lng`).
+5. **Interactive Client UI:** A React SPA that polls geospatial data coordinates to plot interactive markers and routing lines on a live canvas dashboard.
 ```
 [ Supermarket Simulator ] 
        │ (Spring Boot)
