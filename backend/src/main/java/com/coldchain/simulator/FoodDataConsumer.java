@@ -24,6 +24,10 @@ public class FoodDataConsumer {
         "India FoodBanking Network"
     };
 
+    // 🗺️ Map Configurations: Base city coordinates (Centered on Prayagraj / Allahabad)
+    private final double BASE_LAT = 25.4358;
+    private final double BASE_LNG = 81.8463;
+
     @KafkaListener(topics = "food-inventory-stream", groupId = "cold-storage-matchers")
     public void consumeFoodData(InventoryItem item) {
         
@@ -60,17 +64,31 @@ public class FoodDataConsumer {
         } else {
             System.out.println("   🤝 MATCH SUCCESS: Routing " + item.getItemName() + " to " + nearbyCharity + "!");
             
-            // 💾 Save the match to PostgreSQL
+            // ==============================================================
+            // 🗺️ NEW LOGIC: GENERATE SIMULATED GEOSPATIAL COORDINATES
+            // ==============================================================
+            // Creates distinct lat/lng markers within an approximate 10-15km urban range of Prayagraj
+            double sourceLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;
+            double sourceLng = BASE_LNG + (random.nextDouble() - 0.5) * 0.10;
+            
+            double destLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;
+            double destLng = BASE_LNG + (random.nextDouble() - 0.5) * 0.10;
+            
+            // 💾 Save the match to PostgreSQL (Now includes the 4 location arguments!)
             MatchHistory newMatch = new MatchHistory(
                 item.storeId,               // e.g., Reliance Fresh
                 item.getItemName(),         // e.g., Paneer
                 item.getQuantityLbs(), 
                 item.getDaysUntilExpiry(), 
-                nearbyCharity               // e.g., Akshaya Patra
+                nearbyCharity,              // e.g., Akshaya Patra
+                sourceLat,                  // New: Supermarket Latitude
+                sourceLng,                  // New: Supermarket Longitude
+                destLat,                    // New: Charity Latitude
+                destLng                     // New: Charity Longitude
             );
             
             matchHistoryRepository.save(newMatch);
-            System.out.println("   💾 DATABASE: Record updated for localized distribution.");
+            System.out.println("   💾 DATABASE: Record updated for localized distribution with map coordinates.");
         }
     }
 }

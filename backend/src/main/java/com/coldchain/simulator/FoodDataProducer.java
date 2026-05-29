@@ -15,14 +15,14 @@ public class FoodDataProducer {
 
     private final Random random = new Random();
 
-    // 🇮🇳 Indian Retailers
-    private final String[] indianStores = {
-        "Reliance Fresh - Mumbai", 
-        "Big Bazaar - Delhi", 
-        "Nature's Basket - Bangalore", 
-        "Star Bazaar - Pune",
-        "Zomato Hyperpure - Hyderabad",
-        "blinkit Dark Store - Gurgaon"
+    // 📍 UPDATED: Localized to Prayagraj (Matches the Map Center in Consumer!)
+    private final String[] localStores = {
+        "Reliance Fresh - Civil Lines", 
+        "Spencer's Retail - Katra", 
+        "Blinkit Dark Store - Jhalwa (Near IIIT)", 
+        "Vishal Mega Mart - Chowk",
+        "Zomato Hyperpure - Naini",
+        "Nature's Basket - Ashok Nagar"
     };
 
     // 🥦 Indian Grocery Items
@@ -34,22 +34,23 @@ public class FoodDataProducer {
     @Scheduled(fixedRate = 5000)
     public void produceRandomFood() {
         // Pick a random store and a random item
-        String storeName = indianStores[random.nextInt(indianStores.length)];
+        String storeName = localStores[random.nextInt(localStores.length)];
         String itemName = foodItems[random.nextInt(foodItems.length)];
         
         // Logic: Dairy/Meat usually needs refrigeration, Mangoes/Veg might vary
         boolean needsFridge = itemName.contains("Paneer") || itemName.contains("Milk") || itemName.contains("Yogurt");
 
+        // Note: InventoryItem remains exactly the same! No location variables needed here.
         InventoryItem item = new InventoryItem(
             UUID.randomUUID().toString().substring(0, 8),
-            storeName, // No longer "Walmart-Store-101"!
+            storeName, 
             itemName,
             needsFridge, 
             random.nextInt(50) + 5, // 5 to 55 lbs
             random.nextInt(7) + 1   // 1 to 7 days until expiry (High risk)
         );
 
-        System.out.println("🚀 PRODUCING: [" + item.storeId + "] is shipping " + item.itemName);
+        System.out.println(" 🚚 PRODUCING: [" + item.storeId + "] is shipping " + item.itemName);
         
         kafkaTemplate.send("food-inventory-stream", item);
     }
