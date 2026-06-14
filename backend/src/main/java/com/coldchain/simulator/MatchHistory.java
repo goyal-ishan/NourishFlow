@@ -4,12 +4,17 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "match_history")
+@Table(name = "match_history", 
+       uniqueConstraints = @UniqueConstraint(columnNames = "item_id"))  // ← UNIQUE CONSTRAINT
 public class MatchHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    // ✅ ADDED: Unique item ID from producer (for duplicate detection)
+    @Column(unique = true)  
+    private String itemId;
     
     private String originStore;
     private String itemName;
@@ -27,10 +32,11 @@ public class MatchHistory {
     // Required empty constructor for JPA (Database)
     public MatchHistory() {}
 
-    // UPDATED: Constructor now requires the map coordinates when a match is made!
-    public MatchHistory(String originStore, String itemName, int quantityLbs, 
+    // UPDATED: Constructor now includes itemId
+    public MatchHistory(String itemId, String originStore, String itemName, int quantityLbs, 
                         int expiryDaysAtMatch, String charityName, 
                         Double sourceLat, Double sourceLng, Double destLat, Double destLng) {
+        this.itemId = itemId;  // ← STORE UNIQUE ID
         this.originStore = originStore;
         this.itemName = itemName;
         this.quantityLbs = quantityLbs;
@@ -50,6 +56,7 @@ public class MatchHistory {
     // ==========================================
     
     public Long getId() { return id; }
+    public String getItemId() { return itemId; }  // ← ADDED
     public String getOriginStore() { return originStore; }
     public String getItemName() { return itemName; }
     public int getQuantityLbs() { return quantityLbs; }
@@ -67,6 +74,7 @@ public class MatchHistory {
     // SETTERS (Allows updating existing database rows if needed)
     // ==========================================
 
+    public void setItemId(String itemId) { this.itemId = itemId; }  // ← ADDED
     public void setOriginStore(String originStore) { this.originStore = originStore; }
     public void setItemName(String itemName) { this.itemName = itemName; }
     public void setQuantityLbs(int quantityLbs) { this.quantityLbs = quantityLbs; }

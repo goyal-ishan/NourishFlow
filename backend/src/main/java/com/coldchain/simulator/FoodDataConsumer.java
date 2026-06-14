@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import java.util.Random;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class FoodDataConsumer {
@@ -12,6 +14,9 @@ public class FoodDataConsumer {
     
     @Autowired
     private MatchHistoryRepository matchHistoryRepository;
+    
+    // ✅ IN-MEMORY CACHE FOR DUPLICATE DETECTION
+    private final Set<String> processedItemIds = new HashSet<>();
     
     // 🇮🇳 Updated: Renowned Indian Food Banks & NGOs
     private final String[] charityCenters = {
@@ -28,14 +33,31 @@ public class FoodDataConsumer {
     private final double BASE_LAT = 25.4358;
     private final double BASE_LNG = 81.8463;
 
-    @KafkaListener(topics = "food-inventory-stream", groupId = "cold-storage-matchers")
+    // ✅ PARTITION KEY AS TOPIC (Ensures ordering by store)
+    @KafkaListener(
+        topics = "food-inventory-stream", 
+        groupId = "cold-storage-matchers",
+        concurrency = "1"  // ← ONE consumer at a time to ensure ordering
+    )
     public void consumeFoodData(InventoryItem item) {
         
         System.out.println("\n🇮🇳 LOGISTICS UPDATE: Incoming Stock from " + item.storeId);
         System.out.println("   📦 Item: " + item.getItemName());
+        System.out.println("   🆔 Item ID: " + item.itemId);
         System.out.println("   ⚖️ Weight: " + item.getQuantityLbs() + " lbs");
         System.out.println("   ⏳ Expiry Window: " + item.getDaysUntilExpiry() + " days");
         System.out.println("   ❄️ Cold Storage Req: " + (item.isRequiresRefrigeration() ? "YES" : "NO"));
+        
+        // ✅ DUPLICATE CHECK
+        if (isDuplicate(item.itemId)) {
+            System.out.println("   ⚠️ DUPLICATE DETECTED: Item ID " + item.itemId + " already processed!");
+            System.out.println("   ⏭️ SKIPPING: Ignoring duplicate message\n");
+            return;  // Skip duplicate
+        }
+        
+        // Mark as processed
+        processedItemIds.add(item.itemId);
+        System.out.println("   ✅ NEW MESSAGE: Processing item " + item.itemId);
         
         // Match logic: Items with 5 days or less are redirected to NGOs
         if (item.getDaysUntilExpiry() <= 5) {
@@ -45,6 +67,11 @@ public class FoodDataConsumer {
             System.out.println("   ✅ STATUS: Shelf life sufficient. Retaining in store.");
         }
         System.out.println("--------------------------------------------------");
+    }
+
+    // ✅ DUPLICATE DETECTION METHOD
+    private boolean isDuplicate(String itemId) {
+        return processedItemIds.contains(itemId);
     }
 
     private void matchWithCharity(InventoryItem item) {
@@ -65,30 +92,35 @@ public class FoodDataConsumer {
             System.out.println("   🤝 MATCH SUCCESS: Routing " + item.getItemName() + " to " + nearbyCharity + "!");
             
             // ==============================================================
-            // 🗺️ NEW LOGIC: GENERATE SIMULATED GEOSPATIAL COORDINATES
+            // 🗺️ GENERATE SIMULATED GEOSPATIAL COORDINATES
             // ==============================================================
-            // Creates distinct lat/lng markers within an approximate 10-15km urban range of Prayagraj
             double sourceLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;
             double sourceLng = BASE_LNG + (random.nextDouble() - 0.5) * 0.10;
             
             double destLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;
             double destLng = BASE_LNG + (random.nextDouble() - 0.5) * 0.10;
             
-            // 💾 Save the match to PostgreSQL (Now includes the 4 location arguments!)
-            MatchHistory newMatch = new MatchHistory(
-                item.storeId,               // e.g., Reliance Fresh
-                item.getItemName(),         // e.g., Paneer
-                item.getQuantityLbs(), 
-                item.getDaysUntilExpiry(), 
-                nearbyCharity,              // e.g., Akshaya Patra
-                sourceLat,                  // New: Supermarket Latitude
-                sourceLng,                  // New: Supermarket Longitude
-                destLat,                    // New: Charity Latitude
-                destLng                     // New: Charity Longitude
-            );
-            
-            matchHistoryRepository.save(newMatch);
-            System.out.println("   💾 DATABASE: Record updated for localized distribution with map coordinates.");
+            // ✅ WITH ERROR HANDLING FOR DATABASE SAVE
+            try {
+                MatchHistory newMatch = new MatchHistory(
+                    item.itemId,                // ← UNIQUE ITEM ID
+                    item.storeId,               
+                    item.getItemName(),         
+                    item.getQuantityLbs(), 
+                    item.getDaysUntilExpiry(), 
+                    nearbyCharity,              
+                    sourceLat,                  
+                    sourceLng,                  
+                    destLat,                    
+                    destLng                     
+                );
+                
+                matchHistoryRepository.save(newMatch);
+                System.out.println("   💾 DATABASE: Record saved successfully with coordinates.");
+            } catch (Exception e) {
+                System.out.println("   ❌ ERROR: Failed to save to database: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

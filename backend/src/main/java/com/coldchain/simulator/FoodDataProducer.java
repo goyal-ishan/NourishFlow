@@ -40,9 +40,11 @@ public class FoodDataProducer {
         // Logic: Dairy/Meat usually needs refrigeration, Mangoes/Veg might vary
         boolean needsFridge = itemName.contains("Paneer") || itemName.contains("Milk") || itemName.contains("Yogurt");
 
-        // Note: InventoryItem remains exactly the same! No location variables needed here.
+        // Create unique ID for duplicate detection
+        String uniqueItemId = UUID.randomUUID().toString();
+        
         InventoryItem item = new InventoryItem(
-            UUID.randomUUID().toString().substring(0, 8),
+            uniqueItemId,  // ← IMPORTANT: Unique ID for duplicate detection
             storeName, 
             itemName,
             needsFridge, 
@@ -51,7 +53,11 @@ public class FoodDataProducer {
         );
 
         System.out.println(" 🚚 PRODUCING: [" + item.storeId + "] is shipping " + item.itemName);
+        System.out.println("   📦 UNIQUE ID: " + uniqueItemId);
         
-        kafkaTemplate.send("food-inventory-stream", item);
+        // ✅ SEND WITH PARTITION KEY (Store Name) - For Message Ordering
+        // All messages from same store go to same partition
+        kafkaTemplate.send("food-inventory-stream", storeName, item);
+        System.out.println("   🔑 PARTITION KEY: " + storeName + " → Messages from same store will be ordered\n");
     }
 }
