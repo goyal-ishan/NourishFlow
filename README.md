@@ -121,15 +121,15 @@ NourishFlow/
 ├── backend/
 │   ├── src/main/java/com/coldchain/simulator/
 │   │   ├── FoodDataProducer.java              # Inventory simulator
-│   │   ├── FoodDataConsumer.java              # Kafka consumer with ML ⭐
-│   │   ├── MLPredictionClient.java            # ML service client ⭐
-│   │   ├── RestTemplateConfig.java            # HTTP config ⭐
+│   │   ├── FoodDataConsumer.java              # Kafka consumer with ML 
+│   │   ├── MLPredictionClient.java            # ML service client 
+│   │   ├── RestTemplateConfig.java            # HTTP config 
 │   │   ├── InventoryItem.java                 # Food item model
 │   │   ├── MatchHistory.java                  # Match data model
 │   │   └── DataController.java                # REST API
 │   └── pom.xml
 │
-├── ml-engine/                    ⭐ NEW
+├── ml-engine/                     NEW
 │   ├── main.py                   # FastAPI ML endpoints
 │   ├── requirements.txt          # Python dependencies
 │   └── Dockerfile
@@ -138,7 +138,7 @@ NourishFlow/
 │   ├── src/
 │   └── package.json
 │
-└── docker-compose.yml            ⭐ UPDATED
+└── docker-compose.yml            
 ```
 
 ## 🚀 Quick Start
@@ -158,7 +158,7 @@ This starts:
 - Zookeeper (Kafka coordination)
 - Kafka broker (event streaming)
 - PostgreSQL (data storage)
-- ML Inference Engine (Python FastAPI) ⭐
+- ML Inference Engine (Python FastAPI) 
 
 ### Step 2: Start Spring Boot Backend
 
