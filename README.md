@@ -129,7 +129,7 @@ NourishFlow/
 │   │   └── DataController.java                # REST API
 │   └── pom.xml
 │
-├── ml-engine/                     NEW
+├── ml-engine/
 │   ├── main.py                   # FastAPI ML endpoints
 │   ├── requirements.txt          # Python dependencies
 │   └── Dockerfile
@@ -138,7 +138,8 @@ NourishFlow/
 │   ├── src/
 │   └── package.json
 │
-└── docker-compose.yml            
+├── docker-compose.yml            
+└── screenshots/
 ```
 
 ## 🚀 Quick Start
@@ -158,7 +159,7 @@ This starts:
 - Zookeeper (Kafka coordination)
 - Kafka broker (event streaming)
 - PostgreSQL (data storage)
-- ML Inference Engine (Python FastAPI) 
+- ML Inference Engine (Python FastAPI)
 
 ### Step 2: Start Spring Boot Backend
 
@@ -291,16 +292,6 @@ Status: docker exec kafka_broker kafka-consumer-groups --list
 Check: docker ps | grep food_waste_db
 DB: docker exec food_waste_db psql -U user -d food_waste
 ```
-
-## 📝 Key Updates
-
-### New in Latest Version
-
-- ✅ **ML Engine Integration**: Python FastAPI service for expiry prediction & routing optimization
-- ✅ **Enhanced Consumer**: Java consumer now calls ML service for intelligent decisions
-- ✅ **ML Configuration**: application.properties supports ML engine URL configuration
-- ✅ **Docker Compose Update**: Includes ML container with auto-startup
-- ✅ **Fallback Logic**: System continues working if ML service is unavailable
 
 ---
 
