@@ -30,3 +30,18 @@ services:
       POSTGRES_DB: food_waste
     ports:
       - "5432:5432"
+
+  # ✅ NEW: ML Inference Engine
+  ml_engine:
+    build:
+      context: ./ml-engine
+      dockerfile: Dockerfile
+    container_name: ml_inference_engine
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - kafka
+      - food_waste_db
