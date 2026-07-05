@@ -81,11 +81,11 @@ Millions of tons of edible food are discarded daily due to logistical inefficien
                ▼
 ┌─────────────────────────────────────────┐
 │  3. MATCH ENGINE (Kafka Consumer)
-│     ├─ Duplicate Detection ✅
-│     ├─ ML: Expiry Prediction 🧠
-│     ├─ ML: Routing Optimization 🧠
-│     ├─ Cold Chain Validation ❄️
-│     └─ Geospatial Coordinates 📍
+│     ├─ Duplicate Detection 
+│     ├─ ML: Expiry Prediction 
+│     ├─ ML: Routing Optimization 
+│     ├─ Cold Chain Validation 
+│     └─ Geospatial Coordinates 
 └──────────────┬──────────────────────────┘
                │
        ┌───────┼───────┐
