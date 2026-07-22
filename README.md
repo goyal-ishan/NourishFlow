@@ -1,5 +1,11 @@
 # ♻️ NourishFlow
 
+🌐 Live Demo:
+https://nourish-flow-seven.vercel.app
+
+⚙️ Backend API:
+https://nourishflow-1.onrender.com/api/matches
+
 ![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0+-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)
