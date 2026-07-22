@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # IDE specific files
 .vscode/
 .idea/
@@ -10,16 +9,3 @@ target/
 
 # Mac OS files (just in case)
 .DS_Store
-=======
-# IDE specific files
-.vscode/
-.idea/
-*.iml
-
-# Java/Maven build files
-target/
-*.class
-
-# Mac OS files (just in case)
-.DS_Store
->>>>>>> c35186c370318a7a5e7b55bbea6283a750ae2007
