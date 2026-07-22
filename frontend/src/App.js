@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import client from "./api/axiosClient";
 import LiveMap from "./LiveMap";
 import "./App.css";
+import { API_BASE } from './config';
+console.log('🚨 Current API_BASE in Production:', API_BASE);
 
 function App() {
   const [activeTab, setActiveTab] = useState("dashboard");
