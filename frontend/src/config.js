@@ -1,7 +1,9 @@
-// central runtime config for API & WS base URL
-// Uses REACT_APP_API_URL (CRA) if set at build time, otherwise falls back to window.location.origin (useful for preview)
-const API_BASE = (typeof process !== 'undefined' && process.env.REACT_APP_API_URL)
-  || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8080');
+// Central runtime config for API & WS base URL
+const RENDER_BACKEND_URL = 'https://nourishflow-1.onrender.com';
+
+const API_BASE = (typeof process !== 'undefined' && process.env.REACT_APP_API_URL) 
+  ? process.env.REACT_APP_API_URL 
+  : RENDER_BACKEND_URL;
 
 const WS_BASE = (typeof process !== 'undefined' && process.env.REACT_APP_WS_URL)
   || (() => {
