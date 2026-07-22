@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import client from "./api/axiosClient"; // 🔌 Imported your custom Axios client
 import LiveMap from "./LiveMap"; // 🗺️ Imported your new Leaflet map tracking layer
 import "./App.css";
 
@@ -8,16 +9,12 @@ function App() {
   const [matches, setMatches] = useState([]);
   const [error, setError] = useState(false);
 
-  // Updated: Automatically polls your Spring Boot API to update live coordinates
+  // Updated: Automatically polls your Spring Boot API via Axios to update live coordinates
   useEffect(() => {
     const fetchLiveTelemetry = () => {
-      fetch("http://localhost:8080/api/matches")
+      client.get('/api/matches')
         .then((response) => {
-          if (!response.ok) throw new Error("Network response was not ok");
-          return response.json();
-        })
-        .then((data) => {
-          setMatches(data);
+          setMatches(response.data || []);
           setError(false);
         })
         .catch((err) => {
@@ -74,7 +71,7 @@ function App() {
               </p>
             ) : (
               <>
-                {/* 🗺️ NEW: Integrated Live Map Layout right onto the dashboard screen */}
+                {/* 🗺️ Real-time spatial tracking layer */}
                 <div style={{ 
                   backgroundColor: "#ffffff", 
                   padding: "16px", 
