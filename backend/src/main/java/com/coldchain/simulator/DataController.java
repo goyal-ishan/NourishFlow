@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
-@CrossOrigin(origins = "*") // Allows your frontend to talk to this backend safely
+
 @RestController
 public class DataController {
 
