@@ -1,18 +1,18 @@
 package com.coldchain.simulator;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "match_history", 
-       uniqueConstraints = @UniqueConstraint(columnNames = "item_id"))  // ← UNIQUE CONSTRAINT
+       uniqueConstraints = @UniqueConstraint(columnNames = "item_id"))
 public class MatchHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    // ✅ ADDED: Unique item ID from producer (for duplicate detection)
     @Column(unique = true)  
     private String itemId;
     
@@ -21,6 +21,9 @@ public class MatchHistory {
     private int quantityLbs;
     private int expiryDaysAtMatch;
     private String charityName;
+    
+    // 🛠️ FIX: Formats LocalDateTime to ISO-8601 string so Jackson can serialize it cleanly to JSON
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime matchTime;
     
     // Geographical Coordinates for Map Routing
@@ -32,11 +35,11 @@ public class MatchHistory {
     // Required empty constructor for JPA (Database)
     public MatchHistory() {}
 
-    // UPDATED: Constructor now includes itemId
+    // Constructor including itemId
     public MatchHistory(String itemId, String originStore, String itemName, int quantityLbs, 
                         int expiryDaysAtMatch, String charityName, 
                         Double sourceLat, Double sourceLng, Double destLat, Double destLng) {
-        this.itemId = itemId;  // ← STORE UNIQUE ID
+        this.itemId = itemId;
         this.originStore = originStore;
         this.itemName = itemName;
         this.quantityLbs = quantityLbs;
@@ -52,11 +55,11 @@ public class MatchHistory {
     }
 
     // ==========================================
-    // GETTERS (These expose the data to JSON/React)
+    // GETTERS (Expose data to JSON/React)
     // ==========================================
     
     public Long getId() { return id; }
-    public String getItemId() { return itemId; }  // ← ADDED
+    public String getItemId() { return itemId; }
     public String getOriginStore() { return originStore; }
     public String getItemName() { return itemName; }
     public int getQuantityLbs() { return quantityLbs; }
@@ -64,17 +67,17 @@ public class MatchHistory {
     public String getCharityName() { return charityName; }
     public LocalDateTime getMatchTime() { return matchTime; }
     
-    // New Coordinate Getters
+    // Coordinate Getters
     public Double getSourceLat() { return sourceLat; }
     public Double getSourceLng() { return sourceLng; }
     public Double getDestLat() { return destLat; }
     public Double getDestLng() { return destLng; }
 
     // ==========================================
-    // SETTERS (Allows updating existing database rows if needed)
+    // SETTERS
     // ==========================================
 
-    public void setItemId(String itemId) { this.itemId = itemId; }  // ← ADDED
+    public void setItemId(String itemId) { this.itemId = itemId; }
     public void setOriginStore(String originStore) { this.originStore = originStore; }
     public void setItemName(String itemName) { this.itemName = itemName; }
     public void setQuantityLbs(int quantityLbs) { this.quantityLbs = quantityLbs; }
@@ -82,7 +85,7 @@ public class MatchHistory {
     public void setCharityName(String charityName) { this.charityName = charityName; }
     public void setMatchTime(LocalDateTime matchTime) { this.matchTime = matchTime; }
     
-    // New Coordinate Setters
+    // Coordinate Setters
     public void setSourceLat(Double sourceLat) { this.sourceLat = sourceLat; }
     public void setSourceLng(Double sourceLng) { this.sourceLng = sourceLng; }
     public void setDestLat(Double destLat) { this.destLat = destLat; }
