@@ -27,10 +27,8 @@ public class FoodDataConsumer {
     @Autowired
     private MLPredictionClient mlClient;
     
-    // ✅ IN-MEMORY CACHE FOR DUPLICATE DETECTION
     private final Set<String> processedItemIds = new HashSet<>();
     
-    // 🇮🇳 Updated: Renowned Indian Food Banks & NGOs
     private final String[] charityCenters = {
         "Feeding India (Zomato)", 
         "Akshaya Patra Foundation", 
@@ -41,7 +39,7 @@ public class FoodDataConsumer {
         "India FoodBanking Network"
     };
 
-    // 🗺️ Map Configurations: Base city coordinates (Centered on Prayagraj / Allahabad)
+    //Base city coordinates (Centered on Prayagraj / Allahabad)
     private final double BASE_LAT = 25.4358;
     private final double BASE_LNG = 81.8463;
 
@@ -62,20 +60,17 @@ public class FoodDataConsumer {
         System.out.println("⏳ Inventory Window: " + item.getDaysUntilExpiry() + " days");
         System.out.println("❄️ Refrigeration Required: " + (item.isRequiresRefrigeration() ? "YES" : "NO"));
         
-        // ✅ DUPLICATE CHECK
+        // Check duplicate 
         if (isDuplicate(item.itemId)) {
             System.out.println("   ⚠️ DUPLICATE DETECTED: Item ID " + item.itemId + " already processed!");
             System.out.println("   ⏭️ SKIPPING: Ignoring duplicate message\n");
             return;
         }
         
-        // Mark as processed
+       
         processedItemIds.add(item.itemId);
         System.out.println("   ✅ NEW MESSAGE: Processing item " + item.itemId);
         
-        // ============================================
-        // 🧠 FEATURE 1: Get ML Expiry Prediction
-        // ============================================
         double storageTemp = item.isRequiresRefrigeration() ? 4.0 : 20.0;
         double humidity = 65.0;
         
@@ -95,9 +90,7 @@ public class FoodDataConsumer {
         System.out.println("   🚨 Risk Level: " + riskLevel);
         System.out.println("   ⚠️ Critical Risk: " + (criticalRisk ? "YES ❌" : "NO ✅"));
         
-        // ============================================
-        // DECISION: Route to NGO if critical or expiring soon
-        // ============================================
+        
         if (criticalRisk || item.getDaysUntilExpiry() <= 2) {
             System.out.println("\n📢 ACTION: Triggering food redistribution...");
             matchWithCharityML(item, storageTemp, humidity);
@@ -116,12 +109,10 @@ public class FoodDataConsumer {
      */
     private void matchWithCharityML(InventoryItem item, double temp, double humidity) {
         
-        // Create list of nearby NGO candidates
+       
         List<Map<String, Object>> ngoList = createNGOCandidates();
         
-        // ============================================
-        // 🧠 FEATURE 2: Get ML Optimized Routing
-        // ============================================
+        
         Map<String, Object> routingResult = mlClient.getOptimalRouting(
             item.getItemName(),
             temp,
@@ -148,11 +139,10 @@ public class FoodDataConsumer {
         if (item.isRequiresRefrigeration() && !charityHasFridge) {
             System.out.println("   ❌ MATCH FAILED: " + bestNgoName + " cannot handle " + item.getItemName() + " (Refrigeration Required)");
             System.out.println("   🔄 REROUTING: Searching for alternative...");
-            // In production, re-query ML with filtered NGOs
+            
         } else {
             System.out.println("   ✅ MATCH SUCCESSFUL: Routing " + item.getItemName() + " to " + bestNgoName + "!");
             
-            // Generate geospatial coordinates
             double sourceLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;
             double sourceLng = BASE_LNG + (random.nextDouble() - 0.5) * 0.10;
             double destLat = BASE_LAT + (random.nextDouble() - 0.5) * 0.10;

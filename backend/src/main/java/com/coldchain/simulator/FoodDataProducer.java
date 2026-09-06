@@ -15,7 +15,6 @@ public class FoodDataProducer {
 
     private final Random random = new Random();
 
-    // 📍 UPDATED: Localized to Prayagraj (Matches the Map Center in Consumer!)
     private final String[] localStores = {
         "Reliance Fresh - Civil Lines", 
         "Spencer's Retail - Katra", 
@@ -24,27 +23,25 @@ public class FoodDataProducer {
         "Zomato Hyperpure - Naini",
         "Nature's Basket - Ashok Nagar"
     };
-
-    // 🥦 Indian Grocery Items
+    
     private final String[] foodItems = {
         "Fresh Paneer", "Amul Gold Milk", "Alphonso Mangoes", 
         "Organic Palak", "Greek Yogurt", "Desi Ghee", "Tofu"
     };
-
+    
     @Scheduled(fixedRate = 5000)
     public void produceRandomFood() {
-        // Pick a random store and a random item
+       
         String storeName = localStores[random.nextInt(localStores.length)];
         String itemName = foodItems[random.nextInt(foodItems.length)];
         
-        // Logic: Dairy/Meat usually needs refrigeration, Mangoes/Veg might vary
+       
         boolean needsFridge = itemName.contains("Paneer") || itemName.contains("Milk") || itemName.contains("Yogurt");
 
-        // Create unique ID for duplicate detection
         String uniqueItemId = UUID.randomUUID().toString();
         
         InventoryItem item = new InventoryItem(
-            uniqueItemId,  // ← IMPORTANT: Unique ID for duplicate detection
+            uniqueItemId,  //Unique ID for duplicate detection
             storeName, 
             itemName,
             needsFridge, 
@@ -55,7 +52,7 @@ public class FoodDataProducer {
         System.out.println(" 🚚 PRODUCING: [" + item.storeId + "] is shipping " + item.itemName);
         System.out.println("   📦 UNIQUE ID: " + uniqueItemId);
         
-        // ✅ SEND WITH PARTITION KEY (Store Name) - For Message Ordering
+        
         // All messages from same store go to same partition
         kafkaTemplate.send("food-inventory-stream", storeName, item);
         System.out.println("   🔑 PARTITION KEY: " + storeName + " → Messages from same store will be ordered\n");

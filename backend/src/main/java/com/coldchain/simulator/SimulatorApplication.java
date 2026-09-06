@@ -7,10 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling  // <--- This is the "On" switch for our 2-second timer!
+@EnableScheduling  
 public class SimulatorApplication {
 
-    // This forces Java to use the updated time zone name before connecting to the DB
     @PostConstruct
     public void init() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
